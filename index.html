@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./style.css" rel="stylesheet" />
+    <title>Tirage Sujet de Veille</title>
+  </head>
+  <body>
+    <h1 id="head-title">Tirage Sujet de Veille</h1>
+    <section class="parent-contoner">
+      <div class="select-file">
+        <button class="button-select" onclick="getDate()">Sélectionner fischer json</button>
+        <button class="button-select" onclick="popupShow()">
+          Entrez les noms manuellement
+        </button>
+
+        <div class="contoner-result">
+          <table>
+            <tr>
+              <th scope="col">Le nom</th>
+              <th scope="col">La date</th>
+            </tr>
+
+            <tr>
+              <td>Abdallah Atguiri</td>
+              <td>25/04/2022</td>
+            </tr>
+            <tr>
+              <td>Abdallah Atguiri</td>
+              <td>25/04/2022</td>
+            </tr>
+            <tr>
+              <td>Abdallah Atguiri</td>
+              <td>25/04/2022</td>
+            </tr>
+            <tr>
+              <td>Abdallah Atguiri</td>
+              <td>25/04/2022</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="contoner-rand">
+        <div class="tablau-rand">
+          <span id="name">Tourne la roue</span>
+        </div>
+        <button class="go" onclick="goToRend()">Aller !</button>
+      </div>
+    </section>
+
+    <!-- Popup -->
+    <section class="contoner-popups">
+      <div class="manually-enter" id="popup-add">
+        <div class="head-popup">
+          <span class="close-popup-enter" onclick="popupShow()">X</span>
+          <h1>Ajouter des noms</h1>
+          <div class=" ">
+            <span id="error"></span>
+            <input type="text" id="contestantName" />
+            <button id="btn-add" onclick="addContestant()">Ajouter</button>
+            
+          </div>
+         
+        </div>
+        <div class="contoner-names" id="contestants"></div>
+        <!-- <button class="submit">envoyer</button> -->
+      </div>
+    </section>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./logic.js"></script>
+    <script src="./animation.js"></script>
+  </body>
+</html>
