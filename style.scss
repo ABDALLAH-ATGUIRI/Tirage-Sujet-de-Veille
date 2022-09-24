@@ -8,9 +8,23 @@
 body {
     background-color: blueviolet;
 }
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+}
 #head-title {
-    color: white;
-    font-size: 4rem;
+    color: rgb(65, 62, 62);
+    text-shadow: 5px 5px 5px rgb(139, 129, 129);
+    font-size: 4.5rem;
     margin: 4rem;
     font-family: initial sans-serif;
     font-style: italic;
@@ -29,14 +43,13 @@ body {
     }
     .select-file {
         width: 30vw;
+        min-height: 30rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: red($color: #000000);
         -webkit-box-shadow: 6px 6px 24px -8px black;
         border-radius: 5px;
-
-        // justify-content: space-between;
         border-left: 4px black;
         .button-select {
             background-color: azure;
@@ -57,13 +70,11 @@ body {
         .contoner-result {
             background-color: white;
             width: 100%;
-            height: 100%;
-            margin-top: 14px;
+            min-height: 300px;
             border-radius: 5px;
             table{
                 width: 100%;
                 table-layout: inherit;
-                
                 th{
                     margin: 10px;
                     background-color: #c13bff;
@@ -73,7 +84,7 @@ body {
                     font-style: italic;
                 }
                 td{
-                    padding: 5px;
+                    padding: 8px;
                     border-bottom:2px #000000 ;
                     font-size: 16px;
                 }
@@ -215,6 +226,7 @@ body {
                 color: white;
                 border-radius: 0 5px 5px 0;
                 -webkit-box-shadow: 4px 4px 20px -6px black;
+                cursor: pointer;
             }
         }
 
@@ -247,7 +259,7 @@ body {
         display: none;
     }
     #error {
-        color: rgb(194, 8, 8);
+        color: rgb(194, 20, 20);
         font-size: 16px;
         font-weight: 100;
         text-align: center;

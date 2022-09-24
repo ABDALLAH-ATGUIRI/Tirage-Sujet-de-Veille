@@ -1,0 +1,19 @@
+{
+  "name": "wahbi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "animation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABDALLAH-ATGUIRI/Tirage-Sujet-de-Veille.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ABDALLAH-ATGUIRI/Tirage-Sujet-de-Veille/issues"
+  },
+  "homepage": "https://github.com/ABDALLAH-ATGUIRI/Tirage-Sujet-de-Veille#readme"
+}

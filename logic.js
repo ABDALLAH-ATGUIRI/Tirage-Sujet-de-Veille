@@ -1,21 +1,76 @@
-fetch("http://localhost:3000/Contestant", {
-  method: "GET"
-})
-  .then((res) => res.json())
-  .then((json) => {
-    json.forEach((element) => {
-      document.getElementById(
-        "contestants"
-      ).innerHTML += `<span class="names" id="${element.id}" onmouseover="animationDel(${element.id})" onmouseout="animationDel(${element.id})" onClick="delContestant(${element.id})">${element.name}</span>`;
-    });
-  })
-  .catch(() => {
-    console.error();
-  });
+// Constructors
+this.ShowDrawList();
+this.ShowContestants();
 
-// add contestant to object Contestant*
+function ShowDrawList() {
+  drawList().then((data) => {
+    if (data) {
+      document.getElementById("draw").innerHTML = "";
+      data.forEach((element) => {
+        const tr = document.createElement("tr");
+        const td = [document.createElement("td"), document.createElement("td")];
+        const name = document.createTextNode(element.name);
+        const date = document.createTextNode(element.date);
+        td[0].appendChild(name);
+        td[1].appendChild(date);
+        tr.appendChild(td[0]);
+        tr.appendChild(td[1]);
+        document.getElementById("draw").appendChild(tr);
+      });
+    }
+    return true;
+  });
+}
+
+/**
+ * display the list of Watch Subject Draw
+ * @param {*} e
+ */
+function drawList() {
+  return fetch("http://localhost:3000/WatchTopic", {
+    method: "GET"
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      return json;
+    })
+    .catch(() => {
+      console.error();
+    });
+}
+
+/**
+ * display contestants
+ * @param {*}
+ */
+function ShowContestants() {
+  document.getElementById("contestants").innerHTML = "";
+  fetch("http://localhost:3000/Contestant", {
+    method: "GET"
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      if (json) {
+        json.forEach((element) => {
+          document.getElementById(
+            "contestants"
+          ).innerHTML += `<span class="names" id="${element.id}" onmouseover="animationDel(${element.id})" onmouseout="animationDel(${element.id})" onClick="delContestant(${element.id})">${element.name}</span>`;
+        });
+      }
+    })
+    .catch(() => {
+      console.error();
+    });
+}
+
+/**
+ * add contestant to object Contestant*
+ * @param {*} e
+ */
+
 function addContestant(e) {
-e.preventDefault();
+  // e.preventDefault();
+
   let id = ("user_" + Math.floor(Math.random() * 100000)).toString();
   let name = document.getElementById("contestantName").value;
   let data = { id, name };
@@ -29,6 +84,8 @@ e.preventDefault();
     })
       .then((res) => res.json())
       .then((json) => {
+        this.ShowContestants();
+        document.getElementById("contestantName").value = "";
         // console.log(json);
       })
       .catch(() => {
@@ -40,39 +97,28 @@ e.preventDefault();
   }
 }
 
-// Delete contestant from object Contestant
+/**
+ * Delete contestant from object Contestant
+ * @param {*} e
+ */
 function delContestant(el) {
-  fetch("http://localhost:3000/Contestant" + "/" + el.id, {
+  fetch("http://localhost:3000/Contestant/" + el.id, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ id: el.id })
   })
-    .then((res) => {})
+    .then((res) => {
+      this.ShowContestants();
+    })
     .catch(() => console.error());
 }
 
-// get all contestant from object Contestant
-// function getContestants() {
-//     fetch("http://localhost:3000/Contestant", {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(data)
-//       })
-//         .then((res) => res.json())
-//         .then((json) => {
-//           Story.innerHTML = "";
-//           console.log(json);
-//         })
-//         .catch(() => {
-//           console.error();
-//         });
-// }
-
-// Animation Rand the names
+/**
+ * Animation Rand the names
+ * @param {*} e
+ */
 function goToRend() {
   fetch("http://localhost:3000/Contestant", {
     method: "GET"
@@ -80,7 +126,7 @@ function goToRend() {
     .then((res) => res.json())
     .then((json) => {
       if (json.length > 0) {
-        for (let i = 0; i < 30000; i++) {
+        for (let i = 0; i < 10000; i++) {
           user = this.random(json);
         }
       } else {
@@ -109,7 +155,10 @@ function goToRend() {
     });
 }
 
-// Random
+/**
+ * Random function
+ * @param {*} e
+ */
 function random(json) {
   let index = Math.floor(Math.random() * json.length);
   setTimeout(() => {
@@ -120,49 +169,100 @@ function random(json) {
   return json[index];
 }
 
-// add contestant to the list of Watch topic
+/**
+ * add contestant to the list of Watch topic
+ * @param {*} e
+ */
 function addWatchTopicList(contestant) {
-  if (contestant) {
-    fetch("http://localhost:3000/WatchTopic", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(contestant)
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        // console.log(json);
-        this.delContestant(json);
+  getDate().then((date) => {
+    if (contestant) {
+      const data = {
+        id: contestant.id,
+        name: contestant.name,
+        date: date
+      };
+      fetch("http://localhost:3000/WatchTopic", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(data)
       })
-      .catch(() => {
-        console.error();
-      });
-  } else {
-    console.error("Object is vide");
-  }
+        .then((res) => res.json())
+        .then((json) => {
+          // console.log(json);
+          this.delContestant(json);
+          this.ShowDrawList();
+        })
+        .catch(() => {
+          console.error();
+        });
+    } else {
+      console.error("Object is vide");
+    }
+  });
 }
 
-// Get date of Watch topic
+/**
+ * get contestant to the list of Watch topic
+ * @param {*} e
+ */
+function getWatchTopicList() {
+  return fetch("http://localhost:3000/WatchTopic", {
+    method: "GET"
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      return json;
+    })
+    .catch(() => {
+      console.error();
+    });
+}
 
-function getDate() {
-  const today = new Date();
+/**
+ * Get date of Watch topic
+ * @param {*} e
+ */
+const getDate = () => {
+  return getWatchTopicList().then((list) => {
+    if (list.length > 0) {
+      today = new Date(list[list.length - 1].date);
+      today.setDate(today.getDate() + 1);
+    } else {
+      today = new Date();
+    }
 
-  today.setDate(today.getDate() + 2);
+    if (today.getDay() == 0) {
+      today.setDate(today.getDate() + 1);
+    } else if (today.getDay() == 6) {
+      today.setDate(today.getDate() + 2);
+    }
 
-  if (today.getDay() == 0) {
-    today.setDate(today.getDate() + 1);
-  } else if (today.getDay() == 6) {
-    today.setDate(today.getDate() + 2);
-  }
+    day = today.getDate();
+    month = today.getMonth() + 1;
+    year = today.getFullYear();
 
-  day = today.getDate();
-  month = today.getMonth() + 1;
-  year = today.getFullYear();
+    return year + "-" + month + "-" + day;
+  });
+};
 
-  console.log(today.getDay());
-
-  const date = day + "-" + month + "-" + year;
-
-  console.log(date);
+/**
+ *
+ * @param {*} e
+ */
+function clearWatchTopic() {
+  drawList().then((list) => {
+    list.forEach((Contestant) => {
+      fetch("http://localhost:3000/WatchTopic/" + Contestant.id, {
+        method: "DELETE"
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.status);
+        })
+        .catch(() => console.error());
+    });
+  });
 }

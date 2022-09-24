@@ -1,5 +1,8 @@
 // Popup show
-function popupShow() {
+function popupShow(e) {
+  // e.preventDefault();
+  // e.stopPropagation();
+
   const popup = document.getElementById("popup-add");
 
   if (popup.style.display == "block") {
