@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "animation.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ABDALLAH-ATGUIRI/Tirage-Sujet-de-Veille/issues"
   },
-  "homepage": "https://github.com/ABDALLAH-ATGUIRI/Tirage-Sujet-de-Veille#readme"
+  "homepage": "https://github.com/ABDALLAH-ATGUIRI/Tirage-Sujet-de-Veille#readme",
+  "dependencies": {
+    "holidayapi": "^6.0.1"
+  }
 }

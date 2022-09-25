@@ -1,13 +1,16 @@
 // Popup show
 function popupShow(e) {
-  // e.preventDefault();
-  // e.stopPropagation();
-
   const popup = document.getElementById("popup-add");
+  const body = document.querySelector("body");
+
+  console.log(popup.style.display == "none");
+  console.log(body.style.overflow == "hidden");
 
   if (popup.style.display == "block") {
     popup.style.display = "none";
+    body.style.overflow = "scroll";
   } else {
+    body.style.overflow = "hidden";
     popup.style.display = "block";
   }
 }
@@ -20,4 +23,3 @@ function animationDel(el) {
     el.style.textDecorationLine = "line-through";
   }
 }
-

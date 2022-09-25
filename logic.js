@@ -8,13 +8,20 @@ function ShowDrawList() {
       document.getElementById("draw").innerHTML = "";
       data.forEach((element) => {
         const tr = document.createElement("tr");
-        const td = [document.createElement("td"), document.createElement("td")];
+        const td = [
+          document.createElement("td"),
+          document.createElement("td"),
+          document.createElement("td")
+        ];
+        const input = document.createElement("input");
         const name = document.createTextNode(element.name);
         const date = document.createTextNode(element.date);
         td[0].appendChild(name);
         td[1].appendChild(date);
+        td[2].appendChild(input);
         tr.appendChild(td[0]);
         tr.appendChild(td[1]);
+        tr.appendChild(td[2]);
         document.getElementById("draw").appendChild(tr);
       });
     }
@@ -32,7 +39,8 @@ function drawList() {
   })
     .then((res) => res.json())
     .then((json) => {
-      return json;
+      if (json) return json;
+      return false;
     })
     .catch(() => {
       console.error();
@@ -57,6 +65,7 @@ function ShowContestants() {
           ).innerHTML += `<span class="names" id="${element.id}" onmouseover="animationDel(${element.id})" onmouseout="animationDel(${element.id})" onClick="delContestant(${element.id})">${element.name}</span>`;
         });
       }
+      return false;
     })
     .catch(() => {
       console.error();
@@ -83,10 +92,9 @@ function addContestant(e) {
       body: JSON.stringify(data)
     })
       .then((res) => res.json())
-      .then((json) => {
+      .then(() => {
         this.ShowContestants();
         document.getElementById("contestantName").value = "";
-        // console.log(json);
       })
       .catch(() => {
         console.error();
@@ -126,32 +134,36 @@ function goToRend() {
     .then((res) => res.json())
     .then((json) => {
       if (json.length > 0) {
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 20000; i++) {
           user = this.random(json);
         }
-      } else {
-        document.getElementById("popup-add").style.display = "block";
+        return true;
       }
+      document.getElementById(
+        "name"
+      ).innerHTML = `<span id="name">Tourne la roue</span>`;
+      this.popupShow();
+      return false;
     })
-    .then(() => {
-      Swal.fire({
-        title: user.name,
-        width: 700,
-        height: 1200,
-        padding: "3em",
-        color: "#716add",
-        background: '#fff url("/icons/gifty.gif") 100px',
-
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Oui, entrez-le!",
-        cancelButtonText: "Non, annuler!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.addWatchTopicList(user);
-        }
-      });
+    .then((res) => {
+      if (res) {
+        Swal.fire({
+          title: user.name,
+          width: 800,
+          padding: "9em",
+          color: "#716add",
+          background: '#fff url("/icons/gifty.gif") 180px',
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Oui, entrez-le!",
+          cancelButtonText: "Non, annuler!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.addWatchTopicList(user);
+          }
+        });
+      }
     });
 }
 
@@ -191,9 +203,7 @@ function addWatchTopicList(contestant) {
       })
         .then((res) => res.json())
         .then((json) => {
-          // console.log(json);
           this.delContestant(json);
-          this.ShowDrawList();
         })
         .catch(() => {
           console.error();
@@ -222,47 +232,93 @@ function getWatchTopicList() {
 }
 
 /**
+ * Clear the list of contestants
+ * @param {*}
+ *
+ */
+function clearWatchTopic() {
+  drawList().then((list) => {
+    list.forEach(async (Contestant) => {
+      await fetch("http://localhost:3000/WatchTopic/" + Contestant.id, {
+        method: "DELETE"
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          this.ShowDrawList();
+          // console.log(res.status);
+        })
+        .catch(() => console.error());
+    });
+  });
+}
+
+/**
  * Get date of Watch topic
  * @param {*} e
  */
 const getDate = () => {
-  return getWatchTopicList().then((list) => {
+  return getWatchTopicList().then(async (list) => {
     if (list.length > 0) {
       today = new Date(list[list.length - 1].date);
       today.setDate(today.getDate() + 1);
     } else {
       today = new Date();
     }
-
-    if (today.getDay() == 0) {
-      today.setDate(today.getDate() + 1);
-    } else if (today.getDay() == 6) {
-      today.setDate(today.getDate() + 2);
-    }
-
-    day = today.getDate();
-    month = today.getMonth() + 1;
-    year = today.getFullYear();
-
-    return year + "-" + month + "-" + day;
+    do {
+      valDate = await ValDate(today).then((res) => {
+        return res;
+      });
+      if (valDate) today.setDate(today.getDate() + 1);
+    } while (!valDate);
+    return (
+      today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+    );
   });
 };
 
 /**
+ * Validate Date
  *
- * @param {*} e
  */
-function clearWatchTopic() {
-  drawList().then((list) => {
-    list.forEach((Contestant) => {
-      fetch("http://localhost:3000/WatchTopic/" + Contestant.id, {
-        method: "DELETE"
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res.status);
-        })
-        .catch(() => console.error());
-    });
+function ValDate(dateToVal) {
+  toDate = new Date(dateToVal);
+  return holidays().then((res) => {
+    date =
+      toDate.getDate() +
+      "-" +
+      (toDate.getMonth() + 1) +
+      "-" +
+      toDate.getFullYear();
+
+    const holiday =
+      res.filter((result) => {
+        if (result.date == date) return true;
+        return false;
+      }).length == 0
+        ? true
+        : false;
+
+    if (today.getDay() == 0 || today.getDay() == 6 || holiday == true)
+      return true;
+    return false;
   });
 }
+
+/**
+ * Retrieves a list public holidays and observances for countries, states and provinces.
+ *
+ */
+const holidays = () => {
+  return fetch("https://public-holiday.p.rapidapi.com/2023/MA", {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "dbcef4c569msh329fafd979acf5cp1e4d01jsn60ba6fc54e93",
+      "X-RapidAPI-Host": "public-holiday.p.rapidapi.com"
+    }
+  })
+    .then((response) => response.json())
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => console.error(err));
+};

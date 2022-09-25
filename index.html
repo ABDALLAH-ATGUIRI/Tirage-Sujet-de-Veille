@@ -11,21 +11,13 @@
     <h1 id="head-title">Tirage Sujet de Veille</h1>
     <section class="parent-contoner">
       <div class="select-file">
-        <div class="contoner-result">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Le nom de concurrent</th>
-                <th scope="col">la date de sujet Veille</th>
-              </tr>
-            </thead>
-            <tbody id="draw"></tbody>
-          </table>
-        </div>
-        <button class="button-select" onclick="popupShow()">
+        <button class="button-select go" onclick="goToRend()">Aller !</button>
+        <button  class="button-select" onclick="popupShow()">
           Entrez les noms manuellement
         </button>
-        <button class="button-select">Sélectionner fischer json</button>
+        <button class="button-select" onclick="">
+          Sélectionner fischer json
+        </button>
         <button class="button-select" onclick="clearWatchTopic()">
           Vider de liste
         </button>
@@ -35,13 +27,25 @@
         <div class="tablau-rand">
           <span id="name">Tourne la roue</span>
         </div>
-        <button class="go" onclick="goToRend()">Aller !</button>
+        <div class="contoner-result">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col-1">Le nom de concurrent</th>
+                <th scope="col-1">la date de sujet veille</th>
+                <th scope="col-1">Sujet de veille</th>
+              </tr>
+            </thead>
+            <tbody id="draw"></tbody>
+          </table>
+        </div>
+        <!-- <button class="go" onclick="goToRend()">Aller !</button> -->
       </div>
     </section>
 
     <!-- Popup -->
-    <section class="contoner-popups">
-      <div class="manually-enter" id="popup-add">
+    <section class="contoner-popups" id="popup-add" >
+      <div class="manually-enter" >
         <div class="head-popup">
           <span class="close-popup-enter" onclick="popupShow()">X</span>
           <h1>Ajouter des noms</h1>
@@ -55,7 +59,7 @@
         <!-- <button class="submit">envoyer</button> -->
       </div>
     </section>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./logic.js"></script>
     <script src="./animation.js"></script>
   </body>
