@@ -26,8 +26,8 @@ body {
 }
 
 #head-title {
-  color: #6d1098;
-  text-shadow: 5px 5px 5px #522b65;
+  color: #ffffff;
+  text-shadow: 5px 5px 5px #271b2d;
   font-size: 4.5rem;
   margin: 4rem;
   font-family: initial sans-serif;
@@ -50,10 +50,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  -webkit-box-shadow: 6px 6px 24px -8px black;
+  -webkit-box-shadow: 8px 8px 20px -6px black;
   border-radius: 5px;
   border-left: 4px black;
-  height: 16rem;
+  height: 21rem;
 }
 .parent-contoner .select-file .button-select {
   background-color: azure;
@@ -89,55 +89,69 @@ body {
   justify-content: center;
   align-items: flex-end;
   width: 60vw;
-  min-height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
 }
-.parent-contoner .contoner-rand .tablau-rand {
-  width: 100%;
-  background-color: black;
-  height: 5em;
-  color: white;
-  font-size: 36px;
-  font-weight: bolder;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  -webkit-box-shadow: 4px 4px 20px -6px black;
-  border: 5px white;
-}
 .parent-contoner .contoner-rand .contoner-result {
   position: relative;
   background-color: white;
+  border-radius: 5px;
   width: 100%;
   height: auto;
-  min-height: 300px;
+  min-height: 100px;
   font-size: 18px;
 }
 .parent-contoner .contoner-rand .contoner-result table {
+  display: grid;
+  grid-template-rows: 1fr;
   width: 100%;
+  -webkit-box-shadow: 6px 8px 20px -6px black;
 }
-.parent-contoner .contoner-rand .contoner-result table th {
-  margin: 10px;
-  background-color: #c13bff;
-  padding: 2%;
+.parent-contoner .contoner-rand .contoner-result table tr {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.parent-contoner .contoner-rand .contoner-result table tr th {
+  background-color: blueviolet;
+  padding: 5%;
   color: white;
   font-family: initial sans-serif;
   font-style: italic;
+  text-align: center;
 }
-.parent-contoner .contoner-rand .contoner-result table td {
+.parent-contoner .contoner-rand .contoner-result table tr td {
   padding: 10px;
   max-height: 50px;
   border-bottom: 2px #000000;
   font-size: 16px;
 }
-.parent-contoner .contoner-rand .contoner-result table input {
-  width: 100%;
+.parent-contoner .contoner-rand .contoner-result table tr td input {
+  width: 80%;
   border: none;
   padding: 4px;
+}
+.parent-contoner .contoner-rand .contoner-result table #draw {
+  min-height: 250px;
+}
+.parent-contoner .contoner-rand .contoner-result table .tablau-rand {
+  width: 100%;
+  background-color: black;
+  height: 5em;
+  color: blueviolet;
+  font-size: 36px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  -webkit-box-shadow: 4px 4px 20px -6px black;
+  border: 5px white;
+}
+.parent-contoner .contoner-rand .contoner-result table .tablau-rand th {
+  background-color: none;
 }
 
 .contoner-popups {
@@ -175,7 +189,7 @@ body {
   cursor: pointer;
 }
 .contoner-popups .manually-enter .contoner-names {
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-flow: wrap-reverse;
   align-items: center;

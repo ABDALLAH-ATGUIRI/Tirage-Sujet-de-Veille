@@ -1,37 +1,23 @@
 {
-  "Contestant": [
-    {
-      "id": "user_67087",
-      "name": "Buffy Manning"
-    },
-    {
-      "id": "user_42565",
-      "name": "Yen Byers"
-    },
-    {
-      "id": "user_74400",
-      "name": "Beatrice Haynes"
-    },
-    {
-      "id": "user_93054",
-      "name": "Price Dalton"
-    }
-  ],
+  "Contestant": [],
   "WatchTopic": [
     {
-      "id": "user_36141",
-      "name": "Jonas Mueller",
-      "date": "2022-9-26"
+      "id": "user_94805",
+      "name": "Winifred Christian",
+      "date": "2022-9-26",
+      "watchTopic": ""
     },
     {
-      "id": "user_82728",
-      "name": "Quon Mckay",
-      "date": "2022-9-28"
+      "id": "user_51873",
+      "name": "Aristotle Mcmahon",
+      "date": "2022-9-27",
+      "watchTopic": ""
     },
     {
-      "id": "user_97772",
-      "name": "Renee Marsh",
-      "date": "2022-9-30"
+      "id": "user_26469",
+      "name": "Jael Daniels",
+      "date": "2022-9-28",
+      "watchTopic": ""
     }
   ]
 }

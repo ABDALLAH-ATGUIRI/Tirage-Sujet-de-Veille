@@ -1,39 +1,8 @@
-// Constructors
-this.ShowDrawList();
-this.ShowContestants();
-
-function ShowDrawList() {
-  drawList().then((data) => {
-    if (data) {
-      document.getElementById("draw").innerHTML = "";
-      data.forEach((element) => {
-        const tr = document.createElement("tr");
-        const td = [
-          document.createElement("td"),
-          document.createElement("td"),
-          document.createElement("td")
-        ];
-        const input = document.createElement("input");
-        const name = document.createTextNode(element.name);
-        const date = document.createTextNode(element.date);
-        td[0].appendChild(name);
-        td[1].appendChild(date);
-        td[2].appendChild(input);
-        tr.appendChild(td[0]);
-        tr.appendChild(td[1]);
-        tr.appendChild(td[2]);
-        document.getElementById("draw").appendChild(tr);
-      });
-    }
-    return true;
-  });
-}
-
 /**
- * display the list of Watch Subject Draw
- * @param {*} e
+ * Get API from table WatchTopic the list of Watch Subject Draw
+ * @param {*}
  */
-function drawList() {
+function getDrawList() {
   return fetch("http://localhost:3000/WatchTopic", {
     method: "GET"
   })
@@ -48,43 +17,34 @@ function drawList() {
 }
 
 /**
- * display contestants
+ * Get API from table Contestant the list of Contestants
  * @param {*}
  */
-function ShowContestants() {
+function getContestants() {
   document.getElementById("contestants").innerHTML = "";
-  fetch("http://localhost:3000/Contestant", {
+  return fetch("http://localhost:3000/Contestant", {
     method: "GET"
   })
     .then((res) => res.json())
     .then((json) => {
-      if (json) {
-        json.forEach((element) => {
-          document.getElementById(
-            "contestants"
-          ).innerHTML += `<span class="names" id="${element.id}" onmouseover="animationDel(${element.id})" onmouseout="animationDel(${element.id})" onClick="delContestant(${element.id})">${element.name}</span>`;
-        });
-      }
-      return false;
+      return json;
     })
     .catch(() => {
       console.error();
     });
 }
-
 /**
- * add contestant to object Contestant*
- * @param {*} e
+ * Add API to table Contestant the list of Contestants
+ * @param {*}
  */
-
-function addContestant(e) {
-  // e.preventDefault();
-
-  let id = ("user_" + Math.floor(Math.random() * 100000)).toString();
-  let name = document.getElementById("contestantName").value;
-  let data = { id, name };
+function addContestant() {
+  const id = ("user_" + Math.floor(Math.random() * 100000)).toString();
+  const name = document.getElementById("contestantName").value;
+  const date = "";
+  const watchTopic = "";
+  const data = { id, name, date, watchTopic };
   if (name) {
-    fetch("http://localhost:3000/Contestant", {
+    return fetch("http://localhost:3000/Contestant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -93,15 +53,11 @@ function addContestant(e) {
     })
       .then((res) => res.json())
       .then(() => {
-        this.ShowContestants();
-        document.getElementById("contestantName").value = "";
+        return true;
       })
       .catch(() => {
         console.error();
       });
-  } else {
-    document.getElementById("error").innerHTML =
-      '<p id="error">Entrez le nom !</p>';
   }
 }
 
@@ -124,85 +80,38 @@ function delContestant(el) {
 }
 
 /**
- * Animation Rand the names
- * @param {*} e
+ * Random function for get a random contestant
+ * @param {*} Contestant
  */
-function goToRend() {
-  fetch("http://localhost:3000/Contestant", {
-    method: "GET"
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      if (json.length > 0) {
-        for (let i = 0; i < 20000; i++) {
-          user = this.random(json);
-        }
-        return true;
-      }
-      document.getElementById(
-        "name"
-      ).innerHTML = `<span id="name">Tourne la roue</span>`;
-      this.popupShow();
-      return false;
-    })
-    .then((res) => {
-      if (res) {
-        Swal.fire({
-          title: user.name,
-          width: 800,
-          padding: "9em",
-          color: "#716add",
-          background: '#fff url("/icons/gifty.gif") 180px',
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Oui, entrez-le!",
-          cancelButtonText: "Non, annuler!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.addWatchTopicList(user);
-          }
-        });
-      }
-    });
-}
-
-/**
- * Random function
- * @param {*} e
- */
-function random(json) {
-  let index = Math.floor(Math.random() * json.length);
+function random(Contestants) {
+  let index = Math.floor(Math.random() * Contestants.length);
   setTimeout(() => {
     document.getElementById(
       "name"
-    ).innerHTML = `<span id="name" > ${json[index].name}</span>`;
+    ).innerHTML = `<span id="name" > ${Contestants[index].name}</span>`;
   }, 1);
-  return json[index];
+  return Contestants[index];
 }
 
 /**
- * add contestant to the list of Watch topic
- * @param {*} e
+ * Add contestant to the list of Watch topic
+ * @param {*} contestant
  */
 function addWatchTopicList(contestant) {
-  getDate().then((date) => {
+  this.getDate().then((date) => {
     if (contestant) {
-      const data = {
-        id: contestant.id,
-        name: contestant.name,
-        date: date
-      };
+      contestant.date = date;
       fetch("http://localhost:3000/WatchTopic", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
 
-        body: JSON.stringify(data)
+        body: JSON.stringify(contestant)
       })
         .then((res) => res.json())
         .then((json) => {
+          this.ShowDrawList();
           this.delContestant(json);
         })
         .catch(() => {
@@ -215,8 +124,7 @@ function addWatchTopicList(contestant) {
 }
 
 /**
- * get contestant to the list of Watch topic
- * @param {*} e
+ * Get contestant to the list of Watch topic
  */
 function getWatchTopicList() {
   return fetch("http://localhost:3000/WatchTopic", {
@@ -233,11 +141,10 @@ function getWatchTopicList() {
 
 /**
  * Clear the list of contestants
- * @param {*}
  *
  */
 function clearWatchTopic() {
-  drawList().then((list) => {
+  getDrawList().then((list) => {
     list.forEach(async (Contestant) => {
       await fetch("http://localhost:3000/WatchTopic/" + Contestant.id, {
         method: "DELETE"
@@ -254,9 +161,8 @@ function clearWatchTopic() {
 
 /**
  * Get date of Watch topic
- * @param {*} e
  */
-const getDate = () => {
+function getDate() {
   return getWatchTopicList().then(async (list) => {
     if (list.length > 0) {
       today = new Date(list[list.length - 1].date);
@@ -269,36 +175,33 @@ const getDate = () => {
         return res;
       });
       if (valDate) today.setDate(today.getDate() + 1);
-    } while (!valDate);
+    } while (valDate);
     return (
       today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
     );
   });
-};
+}
 
 /**
- * Validate Date
- *
+ * Validate daysOf if was a saturday or sunday or one of holidays
+ * @param {*} dateToVal
  */
 function ValDate(dateToVal) {
   toDate = new Date(dateToVal);
-  return holidays().then((res) => {
+  return holidays(toDate.getFullYear()).then((res) => {
     date =
       toDate.getDate() +
       "-" +
       (toDate.getMonth() + 1) +
       "-" +
       toDate.getFullYear();
-
-    const holiday =
-      res.filter((result) => {
-        if (result.date == date) return true;
-        return false;
-      }).length == 0
-        ? true
-        : false;
-
-    if (today.getDay() == 0 || today.getDay() == 6 || holiday == true)
+    // validate holidays
+    const holiday = res.filter((result) => {
+      if (result.date == date) return true;
+      return false;
+    });
+    // validate saturday or sunday
+    if (today.getDay() == 0 || today.getDay() == 6 || holiday.length > 0)
       return true;
     return false;
   });
@@ -306,10 +209,10 @@ function ValDate(dateToVal) {
 
 /**
  * Retrieves a list public holidays and observances for countries, states and provinces.
- *
+ * @param year : year of get APIs for validate condition
  */
-const holidays = () => {
-  return fetch("https://public-holiday.p.rapidapi.com/2023/MA", {
+const holidays = (year) => {
+  return fetch("https://public-holiday.p.rapidapi.com/" + year + "/MA", {
     method: "GET",
     headers: {
       "X-RapidAPI-Key": "dbcef4c569msh329fafd979acf5cp1e4d01jsn60ba6fc54e93",
@@ -322,3 +225,39 @@ const holidays = () => {
     })
     .catch((err) => console.error(err));
 };
+
+/**
+ * The exportTableToExcel() function convert HTML table data to excel and download as XLS file (.xls).
+ * @param {*} tableID
+ * @param {*} filename default file name
+ */
+function exportTableToExcel(tableID, filename = "") {
+  var downloadLink;
+  var dataType = "application/vnd.ms-excel";
+  var tableSelect = document.getElementById(tableID);
+  var tableHTML = tableSelect.outerHTML.replace(/ /g, "%20");
+
+  // Specify file name
+  filename = filename ? filename + ".xls" : "excel_data.xls";
+
+  // Create download link element
+  downloadLink = document.createElement("a");
+
+  document.body.appendChild(downloadLink);
+
+  if (navigator.msSaveOrOpenBlob) {
+    var blob = new Blob(["\ufeff", tableHTML], {
+      type: dataType
+    });
+    navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+    // Create a link to the file
+    downloadLink.href = "data:" + dataType + ", " + tableHTML;
+
+    // Setting the file name
+    downloadLink.download = filename;
+
+    //triggering the function
+    downloadLink.click();
+  }
+}
