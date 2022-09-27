@@ -6,17 +6,17 @@ par le suite effectuer le tirage au sort qui va sélectionner un seul apprenant,
 ![Screenshot 2022-09-27 093756](https://user-images.githubusercontent.com/94124850/192477153-3c915f51-9ba0-4ebb-9646-83e30292aad1.png)
 
 # The command of creat json server :
-  ## 1- creat node in the project 
+  ### 1- creat node in the project 
      >> npm init 
-  ## 2- install node 
+  ### 2- install node 
      >> npm i 
-  ## 3- Installing JSON Server
+  ### 3- Installing JSON Server
      >> npm install -g json-server
-  ## 4- Checking json-server version and options
+  ### 4- Checking json-server version and options
      >> json-server -v
-  ## 5- Run JSON Server 
+  ### 5- Run JSON Server 
      >> json-server --watch db.json
 # External links :
 
-## . API holidays : https://rapidapi.com/theapiguy/api/public-holiday/ ;
-## . Switalert : https://sweetalert2.github.io/ ;
+### . API holidays : https://rapidapi.com/theapiguy/api/public-holiday/ ;
+### . Switalert : https://sweetalert2.github.io/ ;
