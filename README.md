@@ -7,15 +7,15 @@ par le suite effectuer le tirage au sort qui va sélectionner un seul apprenant,
 
 # The command of creat json server :
   ## 1- creat node in the project 
-    ./ npm init 
+     >> npm init 
   ## 2- install node 
-    ./ npm i 
+     >> npm i 
   ## 3- Installing JSON Server
-    ./ npm install -g json-server
+     >> npm install -g json-server
   ## 4- Checking json-server version and options
-    ./ json-server -v
+     >> json-server -v
   ## 5- Run JSON Server 
-    ./ json-server --watch db.json
+     >> json-server --watch db.json
 # External links :
 
 ## . API holidays : https://rapidapi.com/theapiguy/api/public-holiday/ ;
