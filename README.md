@@ -18,5 +18,5 @@ par le suite effectuer le tirage au sort qui va sélectionner un seul apprenant,
     ./ json-server --watch db.json
 # External links :
 
-. API holidays : https://rapidapi.com/theapiguy/api/public-holiday/ ;
-. Switalert : https://sweetalert2.github.io/ ;
+## . API holidays : https://rapidapi.com/theapiguy/api/public-holiday/ ;
+## . Switalert : https://sweetalert2.github.io/ ;
